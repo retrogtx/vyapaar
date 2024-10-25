@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { RefreshCw, Plus, X, Users, Activity, Twitter, MessageSquare, Copy, Chec
 import { motion, AnimatePresence } from 'framer-motion';
 import { DataTable } from '@/components/ui/data-table';
 import { columns, Lead } from './columns';
+import { Row } from "@tanstack/react-table";
 
 interface LeadWithMessage extends Lead {
   generatedMessage?: string;
@@ -59,49 +60,7 @@ export default function LeadsPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const { toast } = useToast();
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    if (isMonitoring) {
-      fetchLeads();
-      
-      interval = setInterval(fetchLeads, 60000);
-    }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isMonitoring]);
-
-  const addTopic = () => {
-    if (newTopic && !topics.includes(newTopic)) {
-      setTopics([...topics, newTopic]);
-      setNewTopic('');
-    }
-  };
-
-  const removeTopic = (topic: string) => {
-    setTopics(topics.filter(t => t !== topic));
-  };
-
-  const startMonitoring = async () => {
-    if (topics.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please add at least one topic to monitor",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsMonitoring(true);
-  };
-
-  const stopMonitoring = () => {
-    setIsMonitoring(false);
-  };
-
-  const fetchLeads = async () => {
+  const fetchLeads = useCallback(async () => {
     try {
       const response = await fetch('/api/twitter-monitor', {
         method: 'POST',
@@ -135,6 +94,48 @@ export default function LeadsPage() {
         variant: "destructive",
       });
     }
+  }, [topics, filters.minFollowers, filters.minEngagement, toast]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (isMonitoring) {
+      fetchLeads();
+      
+      interval = setInterval(fetchLeads, 60000);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isMonitoring, fetchLeads]);
+
+  const addTopic = () => {
+    if (newTopic && !topics.includes(newTopic)) {
+      setTopics([...topics, newTopic]);
+      setNewTopic('');
+    }
+  };
+
+  const removeTopic = (topic: string) => {
+    setTopics(topics.filter(t => t !== topic));
+  };
+
+  const startMonitoring = async () => {
+    if (topics.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please add at least one topic to monitor",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsMonitoring(true);
+  };
+
+  const stopMonitoring = () => {
+    setIsMonitoring(false);
   };
 
   const copyToClipboard = async (text: string, leadId: string) => {
@@ -208,7 +209,7 @@ export default function LeadsPage() {
     ...columns,
     {
       id: 'actions',
-      cell: ({ row }) => {
+      cell: ({ row }: { row: Row<LeadWithMessage> }) => {
         const lead = row.original as LeadWithMessage;
         return (
           <div className="flex flex-col gap-2">
