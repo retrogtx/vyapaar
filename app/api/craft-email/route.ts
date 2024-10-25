@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
         console.log(`Email sent successfully to ${customer.email}`, result);
         
         // Add delay after sending each email
-        await delay(500);
+        await delay(1000);
         
         return { success: true, data: result };
       } catch (error) {
