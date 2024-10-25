@@ -136,7 +136,7 @@ export default async function CustomersPage() {
                 <TableHead>Email</TableHead>
                 <TableHead>Location</TableHead>
                 <TableHead>Phone</TableHead>
-                <TableHead>Last Interaction</TableHead>
+                <TableHead>Purchase History</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -146,7 +146,7 @@ export default async function CustomersPage() {
                   <TableCell>{customer.email}</TableCell>
                   <TableCell>{`${customer.city}, ${customer.state}`}</TableCell>
                   <TableCell>{customer.phone}</TableCell>
-                  <TableCell>{customer.lastInteractionDate}</TableCell>
+                  <TableCell>{customer.purchaseHistory}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

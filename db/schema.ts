@@ -1,4 +1,4 @@
-import { integer, text, pgTable, timestamp, primaryKey, uuid } from "drizzle-orm/pg-core";
+import { integer, text, pgTable, timestamp, primaryKey, uuid, real } from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
   id: text("id")
@@ -42,15 +42,19 @@ export const waitlistUsers = pgTable("waitlist_users", {
 
 export const customers = pgTable('customers', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name'),
+  name: text('name').notNull(),
+  age: integer('age').notNull(),
   email: text('email').notNull().unique(),
-  gender: text('gender'),
-  phone: text('phone'),
-  city: text('city'),
-  state: text('state'),
-  purchaseHistory: text('purchase_history'),
-  lastInteractionDate: text('last_interaction_date'),
+  gender: text('gender').notNull(),
+  phone: text('phone').notNull().unique(),
+  city: text('city').notNull(),
+  state: text('state').notNull(),
+  purchaseHistory: text('purchase_history').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  // Add more fields as needed
-})
+  businessExpenses: integer('business_expenses').notNull(),
+  businessGrowthRate: real('business_growth_rate').notNull(),
+  customerSatisfactionScore: integer('customer_satisfaction_score').notNull(),
+  loyaltyPoints: integer('loyalty_points').notNull(),
+  averageOrderValue: integer('average_order_value').notNull(),
+});

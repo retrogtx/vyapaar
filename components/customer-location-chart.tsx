@@ -104,7 +104,7 @@ export default function CustomerLocationChart({ customers }: CustomerLocationCha
           title: {
             display: true,
             text: 'Orders by State',
-            color: 'currentColor',
+            color: 'white',
             font: {
               size: 16,
               weight: 'bold'
