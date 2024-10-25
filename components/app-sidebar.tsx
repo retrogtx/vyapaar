@@ -1,4 +1,4 @@
-import { Calendar, Inbox, Search, Settings, User } from "lucide-react"
+import { BarChart, Users, Inbox, MessageSquare, Settings, User } from "lucide-react"
 import { signOut } from "@/auth"
 
 import {
@@ -24,23 +24,28 @@ import {
 
 const items = [
   {
-    title: "Inbox",
-    url: "/plans",
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: BarChart,
+  },
+  {
+    title: "Customers",
+    url: "/dashboard/customers",
+    icon: Users,
+  },
+  {
+    title: "Campaigns",
+    url: "/dashboard/campaigns",
     icon: Inbox,
   },
   {
-    title: "Calendar",
-    url: "/plans",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "/plans",
-    icon: Search,
+    title: "AI Chat",
+    url: "/dashboard/chat",
+    icon: MessageSquare,
   },
   {
     title: "Settings",
-    url: "/plans",
+    url: "/dashboard/settings",
     icon: Settings,
   },
 ]

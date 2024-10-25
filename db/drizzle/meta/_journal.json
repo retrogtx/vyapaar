@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1728706636979,
-      "tag": "0000_daily_legion",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1728728693064,
-      "tag": "0001_watery_mikhail_rasputin",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1728728843829,
-      "tag": "0002_workable_annihilus",
+      "when": 1729865422444,
+      "tag": "0000_fantastic_piledriver",
       "breakpoints": true
     }
   ]
