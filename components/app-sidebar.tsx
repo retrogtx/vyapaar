@@ -1,4 +1,4 @@
-import { BarChart, Users, Inbox, MessageSquare, Settings, User } from "lucide-react"
+import { BarChart, Users, Inbox, MessageSquare, Settings, User, Link } from "lucide-react"
 import { signOut } from "@/auth"
 
 import {
@@ -37,6 +37,11 @@ const items = [
     title: "AI Campaign",
     url: "/email-campaign",
     icon: Inbox,
+  },
+  {
+    title: "A/B Testing",
+    url: "https://ab-thumbnail.vercel.app/",
+    icon: Link,
   },
   {
     title: "AI Chat",
