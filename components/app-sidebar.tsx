@@ -34,8 +34,8 @@ const items = [
     icon: Users,
   },
   {
-    title: "Email Campaign",
-    url: "/email-campaign",
+    title: "Campaigns",
+    url: "/dashboard/campaigns",
     icon: Inbox,
   },
   {
