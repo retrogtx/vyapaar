@@ -4,6 +4,13 @@ import { db } from '@/db'
 import { customers } from '@/db/schema'
 import { v4 as uuidv4 } from 'uuid'
 
+// Add this import
+import { Groq } from 'groq-sdk'
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+})
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
@@ -55,6 +62,26 @@ export async function POST(request: NextRequest) {
         console.error('Database error:', dbError)
         return NextResponse.json({ error: 'Database error occurred' }, { status: 500 })
       }
+    }
+
+    // Add this section to process the CSV data with the LLM
+    try {
+      const csvSummary = await groq.chat.completions.create({
+        messages: [
+          { role: "system", content: "You are a helpful assistant that summarizes CSV data." },
+          { role: "user", content: `Summarize the following CSV data:\n\n${csvContent}` }
+        ],
+        model: "llama-3.2-90b-text-preview",
+      })
+
+      const summary = csvSummary.choices[0]?.message?.content
+
+      // Store the summary in the database or a file for later use
+      // For simplicity, we'll just log it here
+      console.log('CSV Summary:', summary)
+
+    } catch (llmError) {
+      console.error('Error processing CSV with LLM:', llmError)
     }
 
     return NextResponse.json({ message: 'CSV data processed successfully' }, { status: 200 })

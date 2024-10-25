@@ -34,13 +34,13 @@ const items = [
     icon: Users,
   },
   {
-    title: "Campaigns",
-    url: "/dashboard/campaigns",
+    title: "Email Campaign",
+    url: "/email-campaign",
     icon: Inbox,
   },
   {
     title: "AI Chat",
-    url: "/dashboard/chat",
+    url: "/chat",
     icon: MessageSquare,
   },
   {
