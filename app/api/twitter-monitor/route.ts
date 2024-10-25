@@ -2,8 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'twitter-api-sdk';
 import { db } from '@/db';
 import { leads } from '@/db/schema';
+/**
+ * 
+ * IMPORTANT, THIS DOESNT WORKKK BECAUSE WE ARE BROKE TO BUY API, BUT IT WORKS WITH THE RIGHT PREMIUM API:
+Limitations of Free API Access
+User Lookup Restrictions:
+The free Twitter developer account does not allow you to look up user data from Twitter, except for your own account, and even this is extremely limited24. Attempts to use functions like lookup_users() will result in errors due to insufficient permissions2.
+Data Retrieval:
+You cannot retrieve tweets or timelines from other users. The only available endpoint for free access is GET /2/users/me, which provides information about your own account45.
+Posting Capability:
+While you can post tweets and interact with your own account, retrieving data such as tweets from other users or performing complex queries is restricted under the free tier45.
+ */
 
-// Define interfaces for type safety
 interface Filter {
   type: 'followerCount' | 'engagement';
   minFollowers?: number;
@@ -52,14 +62,18 @@ interface Lead {
   topics: string[];
 }
 
+// Validate required environment variables
 if (!process.env.X_BEARER) {
   throw new Error('X_BEARER token is not defined in environment variables');
 }
 
-// Create client with the X bearer token
+// Initialize Twitter client with bearer token for App-only authentication
 const twitterClient = new Client(process.env.X_BEARER);
 
 export async function POST(request: NextRequest) {
+  // Define topics at the top level of the function so it's available in catch block
+  let topics: string[] = [];
+  
   try {
     // Validate Twitter client
     if (!twitterClient) {
@@ -68,10 +82,14 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
 
-    const { topics, filters } = await request.json() as {
+    // Extract and store topics from request
+    const { topics: requestTopics, filters } = await request.json() as {
       topics: string[];
       filters: Filter[];
     };
+    
+    // Assign to our top-level topics variable
+    topics = requestTopics;
 
     // Validate input
     if (!Array.isArray(topics) || topics.length === 0) {
@@ -80,39 +98,71 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Create search query from topics
-    const searchQuery = topics.map((topic: string) => `"${topic}"`).join(' OR ');
+    // Build an advanced search query following X API guidelines
+    const searchQuery = topics.map((topic: string) => {
+      const formattedTopic = topic.includes(' ') ? `"${topic}"` : topic;
+      return `(${formattedTopic})`; 
+    }).join(' OR ');
 
-    console.log('Searching Twitter with query:', searchQuery); // Debug log
+    // Add search operators for better results
+    const enhancedQuery = `${searchQuery} -is:retweet -is:reply lang:en has:mentions min_faves:5`;
+    
+    console.log('Searching X with query:', enhancedQuery);
 
-    // Get tweets matching the search query
     const tweets = await twitterClient.tweets.tweetsRecentSearch({
-      query: searchQuery,
-      "tweet.fields": ["created_at", "author_id", "public_metrics"],
-      "user.fields": ["name", "username", "description", "public_metrics"],
-      expansions: ["author_id"],
+      query: enhancedQuery,
       max_results: 100,
+      "tweet.fields": [
+        "created_at",
+        "author_id",
+        "public_metrics",
+        "entities",
+        "context_annotations",
+        "conversation_id",
+        "in_reply_to_user_id"
+      ],
+      "user.fields": [
+        "name",
+        "username",
+        "description",
+        "public_metrics",
+        "verified",
+        "location",
+        "url"
+      ],
+      "expansions": [
+        "author_id",
+        "entities.mentions.username",
+        "referenced_tweets.id",
+        "referenced_tweets.id.author_id"
+      ],
     }) as TwitterResponse;
 
+    // Enhanced error handling
     if (!tweets.data || tweets.data.length === 0) {
+      console.log('No tweets found for query:', enhancedQuery);
       return NextResponse.json({ 
         leads: [], 
         count: 0,
-        message: 'No tweets found matching the criteria'
+        message: `No tweets found matching: ${topics.join(', ')}`
       });
     }
 
-    // Process and filter tweets
+    // Process and filter tweets with improved engagement metrics
     const relevantLeads = tweets.data.filter((tweet: Tweet) => {
       return filters.every((filter: Filter) => {
         switch (filter.type) {
           case 'followerCount': {
             const user = tweets.includes?.users?.find(u => u.id === tweet.author_id);
-            return (user?.public_metrics?.followers_count ?? 0) >= (filter.minFollowers ?? 0);
+            const followerCount = user?.public_metrics?.followers_count ?? 0;
+            return followerCount >= (filter.minFollowers ?? 0);
           }
           case 'engagement': {
-            const engagement = (tweet.public_metrics?.retweet_count ?? 0) + 
-                             (tweet.public_metrics?.like_count ?? 0);
+            const metrics = tweet.public_metrics;
+            const engagement = (metrics?.retweet_count ?? 0) + 
+                             (metrics?.like_count ?? 0) +
+                             (metrics?.reply_count ?? 0) +
+                             (metrics?.quote_count ?? 0);
             return engagement >= (filter.minEngagement ?? 0);
           }
           default:
@@ -177,9 +227,38 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error monitoring Twitter:', error);
+    console.error('Error monitoring X:', error);
+    
+    // Enhanced error handling with specific X API errors
+    if (error instanceof Error) {
+      const errorMessage = error.message.toLowerCase();
+      
+      if (errorMessage.includes('client-not-enrolled')) {
+        return NextResponse.json({ 
+          error: 'Please ensure your X API credentials are from a Project with appropriate access level',
+          details: 'Visit https://developer.twitter.com/en/portal/projects-and-apps',
+          topics
+        }, { status: 403 });
+      }
+      
+      if (errorMessage.includes('too many requests')) {
+        return NextResponse.json({ 
+          error: 'Rate limit exceeded. Please try again later.',
+          topics
+        }, { status: 429 });
+      }
+
+      if (errorMessage.includes('invalid token')) {
+        return NextResponse.json({ 
+          error: 'Authentication failed. Please check your X API credentials.',
+          topics
+        }, { status: 401 });
+      }
+    }
+
     return NextResponse.json({ 
-      error: error instanceof Error ? error.message : 'Failed to monitor Twitter' 
+      error: error instanceof Error ? error.message : 'Failed to monitor X',
+      topics
     }, { status: 500 });
   }
 }

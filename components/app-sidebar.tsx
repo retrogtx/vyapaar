@@ -54,7 +54,7 @@ const items = [
     icon: Settings,
   },
   {
-    title: "Lead Generation",
+    title: "AI Lead Generation",
     url: "/leads",
     icon: Users,  // or another appropriate icon
   },
