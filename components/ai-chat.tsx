@@ -62,7 +62,11 @@ export default function AIChat() {
         <div className="space-y-4">
           {chatHistory.map((msg, index) => (
             <div key={index} className={`${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-              <span className={`inline-block p-2 rounded ${msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
+              <span className={`inline-block p-2 rounded ${
+                msg.role === 'user' 
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-white dark:bg-zinc-800 text-foreground shadow-sm border border-border'
+              }`}>
                 {msg.content}
               </span>
             </div>
