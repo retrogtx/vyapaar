@@ -1,4 +1,4 @@
-import { integer, text, pgTable, timestamp, primaryKey } from "drizzle-orm/pg-core";
+import { integer, text, pgTable, timestamp, primaryKey, uuid } from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
   id: text("id")
@@ -39,3 +39,18 @@ export const waitlistUsers = pgTable("waitlist_users", {
   email: text("email").notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const customers = pgTable('customers', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: text('name'),
+  email: text('email').notNull().unique(),
+  gender: text('gender'),
+  phone: text('phone'),
+  city: text('city'),
+  state: text('state'),
+  purchaseHistory: text('purchase_history'),
+  lastInteractionDate: text('last_interaction_date'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  // Add more fields as needed
+})

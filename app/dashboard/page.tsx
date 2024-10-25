@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import CustomerSegments from "@/components/customer-segments"
 import CampaignInsights from "@/components/campaign-insights"
 import AIChat from "@/components/ai-chat"
+import CSVUpload from "@/components/CSVUpload"
 
 function SignOutButton() {
   async function handleSignOut() {
@@ -39,6 +40,7 @@ export default async function DashboardPage() {
         <CustomerSegments />
         <CampaignInsights />
       </div>
+      <CSVUpload />
       <AIChat />
     </div>
   )

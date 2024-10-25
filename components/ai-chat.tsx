@@ -4,31 +4,53 @@ import { useState } from "react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/hooks/use-toast"
 
 interface ChatMessage {
-  role: "user" | "ai";
+  role: "user" | "assistant";
   content: string;
 }
 
 export default function AIChat() {
   const [message, setMessage] = useState("")
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
 
   const handleSendMessage = async () => {
-    if (!message.trim()) return
+    if (!message.trim() || isLoading) return
 
-    // Add user message to chat history
-    setChatHistory((prev) => [...prev, { role: "user", content: message }])
+    setIsLoading(true)
+    const newMessage: ChatMessage = { role: "user", content: message }
+    setChatHistory((prev) => [...prev, newMessage])
 
-    // TODO: Send message to AI service and get response
-    // This is a placeholder, replace with actual API call
-    const aiResponse = "This is a placeholder AI response."
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages: [...chatHistory, newMessage] }),
+      })
 
-    // Add AI response to chat history
-    setChatHistory((prev) => [...prev, { role: "ai", content: aiResponse }])
+      if (!response.ok) {
+        throw new Error('Failed to get AI response')
+      }
 
-    // Clear input
-    setMessage("")
+      const data = await response.json()
+      const aiMessage: ChatMessage = { role: "assistant", content: data.reply }
+      setChatHistory((prev) => [...prev, aiMessage])
+    } catch (error) {
+      console.error('Error sending message:', error)
+      toast({
+        title: "Error",
+        description: "Failed to get AI response. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+      setMessage("")
+    }
   }
 
   return (
@@ -51,8 +73,11 @@ export default function AIChat() {
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Ask a question..."
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              disabled={isLoading}
             />
-            <Button onClick={handleSendMessage}>Send</Button>
+            <Button onClick={handleSendMessage} disabled={isLoading}>
+              {isLoading ? 'Sending...' : 'Send'}
+            </Button>
           </div>
         </div>
       </CardContent>
