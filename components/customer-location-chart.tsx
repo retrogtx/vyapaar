@@ -79,10 +79,10 @@ export default function CustomerLocationChart({ customers }: CustomerLocationCha
           legend: {
             position: 'right',
             labels: {
-              color: 'currentColor',
+              color: '#FFFFFF',  // Changed to hex color
               padding: 20,
               font: {
-                size: 12
+                size: 12,
               },
               generateLabels: (chart) => {
                 const datasets = chart.data.datasets;
@@ -93,7 +93,10 @@ export default function CustomerLocationChart({ customers }: CustomerLocationCha
                   strokeStyle: chartColors[i],
                   lineWidth: 0,
                   hidden: false,
-                  index: i
+                  index: i,
+                  // Added text color options
+                  fontColor: '#FFFFFF',
+                  color: '#FFFFFF'
                 }))
               },
               boxWidth: 15,
