@@ -3,8 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react"
 export const metadata: Metadata = {
-  title: "Starter Kit",
-  description: "Starter Kit for your Indie Hacking Journey.",
+  title: "Vyapaar",
+  description: "The best AI integrated CRM for your business.",
 };
 
 export default function RootLayout({
