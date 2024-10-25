@@ -53,6 +53,11 @@ const items = [
     url: "/dashboard/settings",
     icon: Settings,
   },
+  {
+    title: "Lead Generation",
+    url: "/leads",
+    icon: Users,  // or another appropriate icon
+  },
 ]
 
 function SignOutButton() {

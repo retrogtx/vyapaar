@@ -58,3 +58,18 @@ export const customers = pgTable('customers', {
   loyaltyPoints: integer('loyalty_points').notNull(),
   averageOrderValue: integer('average_order_value').notNull(),
 });
+
+export const leads = pgTable('leads', {
+  id: text('id').primaryKey(),
+  twitterId: text('twitter_id').notNull(),
+  username: text('username').notNull(),
+  name: text('name').notNull(),
+  bio: text('bio'),
+  tweet: text('tweet').notNull(),
+  followerCount: integer('follower_count').notNull(),
+  topics: text('topics').array(),
+  status: text('status').default('new'),
+  notes: text('notes'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
