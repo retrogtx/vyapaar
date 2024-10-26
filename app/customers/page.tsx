@@ -10,8 +10,13 @@ import {
 } from "@/components/ui/table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import CustomerLocationChart from "@/components/customer-location-chart"
+import { unstable_noStore as noStore } from 'next/cache';
+
+
+export const revalidate = 0
 
 async function getCustomers() {
+  noStore();
   const data = await db.select().from(customers).execute()
   return data
 }
