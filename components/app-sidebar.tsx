@@ -48,7 +48,6 @@ const items = [
     url: "/leads",
     icon: Users, 
   },
-  ,
   {
     title: "A/B Testing",
     url: "https://ab-thumbnail.vercel.app/",

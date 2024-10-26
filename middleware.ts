@@ -5,8 +5,15 @@ import { auth } from "@/auth"
 export async function middleware(request: NextRequest) {
   const session = await auth()
 
-  if (!session && request.nextUrl.pathname.startsWith('/dashboard')) {
-    return NextResponse.redirect(new URL('/signin', request.url))
+  if (!session && (
+    request.nextUrl.pathname.startsWith('/dashboard') ||
+    request.nextUrl.pathname.startsWith('/business') ||
+    request.nextUrl.pathname.startsWith('/customers') ||
+    request.nextUrl.pathname.startsWith('/chat') ||
+    request.nextUrl.pathname.startsWith('/email-campaign') ||
+    request.nextUrl.pathname.startsWith('/leads')
+  )) {
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
   if (session && request.nextUrl.pathname === '/signin') {
@@ -21,5 +28,14 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/signin", "/"],
+  matcher: [
+    "/dashboard/:path*",
+    "/business/:path*",
+    "/customers/:path*",
+    "/chat/:path*",
+    "/email-campaign/:path*",
+    "/leads/:path*",
+    "/signin",
+    "/"
+  ]
 }
