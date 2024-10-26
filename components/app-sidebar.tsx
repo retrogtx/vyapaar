@@ -1,4 +1,4 @@
-import { BarChart, Users, Inbox, MessageSquare, User, Link } from "lucide-react"
+import { BarChart, Users, Inbox, MessageSquare, User, Link, Briefcase } from "lucide-react"
 import { signOut } from "@/auth"
 
 import {
@@ -32,6 +32,11 @@ const items = [
     title: "Customers",
     url: "/customers",
     icon: Users,
+  },
+  {
+    title: "Business",
+    url: "/business",
+    icon: Briefcase,  
   },
   {
     title: "AI Campaign",

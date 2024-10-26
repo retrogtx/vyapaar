@@ -53,7 +53,7 @@ export default function Home() {
           <div className="absolute inset-0 -inset-x-20 h-[150%] bg-gradient-to-t from-black via-black to-transparent opacity-100 z-30"></div>
           <div className="relative z-20 overflow-hidden rounded-lg">
             <BorderBeam size={250} duration={12} delay={9} className="absolute inset-0 z-20" />
-            <Safari url="vyapaar.com" className="w-full h-full relative z-10" />
+            <Safari url="vyapaar.com" className="w-full h-full relative z-10" src="/safari.jpg" />
           </div>
           <div className="flex flex-col justify-center items-center relative z-40">
             <p className="text-sm text-gray-200 mb-2">Trusted by alotta people for handling their customers.</p>
