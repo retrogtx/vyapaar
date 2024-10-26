@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
         console.log('Inserting record:', record)
         
         // Create a properly typed customer data object
-        const customerData = {
+        const rawCustomerData = {
           id: uuidv4(),
           name: (record.Name || record.name || '') as string,
           email: (record.Email || record.email || '') as string,
@@ -47,23 +47,42 @@ export async function POST(request: NextRequest) {
           updatedAt: new Date()
         }
 
+        // Add validation and type conversion before inserting
+        const customerData = {
+          ...rawCustomerData,
+          businessExpenses: Number(rawCustomerData.businessExpenses) || 0,
+          businessGrowthRate: Number(rawCustomerData.businessGrowthRate) || 0,
+          customerSatisfactionScore: Number(rawCustomerData.customerSatisfactionScore) || 0,
+          loyaltyPoints: Number(rawCustomerData.loyaltyPoints) || 0,
+          averageOrderValue: Number(rawCustomerData.averageOrderValue) || 0,
+          age: Number(rawCustomerData.age) || 0
+        };
+
+        // Add validation before update
+        if (!customerData.businessExpenses && 
+            !customerData.businessGrowthRate && 
+            !customerData.customerSatisfactionScore) {
+          throw new Error('Invalid numerical values in CSV');
+        }
+
         await db.insert(customers).values(customerData)
           .onConflictDoUpdate({
             target: [customers.email],
             set: {
-              name: customerData.name,
-              gender: customerData.gender,
-              phone: customerData.phone,
-              city: customerData.city,
-              state: customerData.state,
-              purchaseHistory: customerData.purchaseHistory,
-              age: customerData.age,
-              businessExpenses: customerData.businessExpenses,
-              businessGrowthRate: customerData.businessGrowthRate,
-              customerSatisfactionScore: customerData.customerSatisfactionScore,
-              loyaltyPoints: customerData.loyaltyPoints,
-              averageOrderValue: customerData.averageOrderValue,
-              updatedAt: customerData.updatedAt
+              // Only update if new value exists
+              ...(customerData.name && { name: customerData.name }),
+              ...(customerData.gender && { gender: customerData.gender }),
+              ...(customerData.phone && { phone: customerData.phone }),
+              ...(customerData.city && { city: customerData.city }),
+              ...(customerData.state && { state: customerData.state }),
+              ...(customerData.purchaseHistory && { purchaseHistory: customerData.purchaseHistory }),
+              ...(customerData.age && { age: customerData.age }),
+              ...(customerData.businessExpenses && { businessExpenses: customerData.businessExpenses }),
+              ...(customerData.businessGrowthRate && { businessGrowthRate: customerData.businessGrowthRate }),
+              ...(customerData.customerSatisfactionScore && { customerSatisfactionScore: customerData.customerSatisfactionScore }),
+              ...(customerData.loyaltyPoints && { loyaltyPoints: customerData.loyaltyPoints }),
+              ...(customerData.averageOrderValue && { averageOrderValue: customerData.averageOrderValue }),
+              updatedAt: new Date()
             }
           })
       } catch (dbError) {

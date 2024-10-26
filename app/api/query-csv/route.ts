@@ -15,10 +15,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Fetch all customer data from the database
     const allCustomers = await db.select().from(customers).execute()
-
-    // Convert customer data to a string representation
     const customerData = JSON.stringify(allCustomers, null, 2)
 
     const completion = await groq.chat.completions.create({
