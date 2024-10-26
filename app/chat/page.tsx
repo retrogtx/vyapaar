@@ -25,12 +25,12 @@ const ChatPage = () => {
     setChatHistory((prev) => [...prev, newMessage])
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch('/api/query-csv', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ messages: [...chatHistory, newMessage] }),
+        body: JSON.stringify({ query: message }),
       })
 
       if (!response.ok) {
@@ -38,7 +38,10 @@ const ChatPage = () => {
       }
 
       const data = await response.json()
-      const aiMessage: ChatMessage = { role: "assistant", content: data.reply }
+      const aiMessage: ChatMessage = { 
+        role: "assistant", 
+        content: data.reply
+      }
       setChatHistory((prev) => [...prev, aiMessage])
     } catch (error) {
       console.error('Error sending message:', error)
@@ -57,13 +60,15 @@ const ChatPage = () => {
     <div className="container mx-auto p-6">
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">AI Chat Assistant</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Your AI Assistant</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {chatHistory.map((msg, index) => (
               <div key={index} className={`${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-                <span className={`inline-block p-2 rounded ${msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
+                <span className={`inline-block p-2 rounded ${
+                  msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-green-500 text-white'
+                }`}>
                   {msg.content}
                 </span>
               </div>
@@ -72,7 +77,7 @@ const ChatPage = () => {
               <Input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Ask a question..."
+                placeholder="Ask questions about your customer data..."
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 disabled={isLoading}
               />
