@@ -1,11 +1,24 @@
-import { auth } from "@/auth"
+'use client'
+
+import { useSession } from "next-auth/react"
 import AIChat from "@/components/ai-chat"
 import CSVUpload from "@/components/CSVUpload"
 import CSVQuery from "@/components/CSVQuery"
 import GettingStartedGuide from "@/components/getting-started"
+import { useToast } from "@/hooks/use-toast"
+import { useEffect } from "react"
 
-export default async function DashboardPage() {
-  const session = await auth()
+export default function DashboardPage() {
+  const { toast } = useToast()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    toast({
+      title: "Welcome back!",
+      description: "You're now viewing your dashboard.",
+    })
+  }, [toast])
+
   return (
     <div className="p-6 space-y-6">
       <div className="text-center mb-8">

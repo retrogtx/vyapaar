@@ -7,12 +7,13 @@ import { useToast } from "@/hooks/use-toast"
 export default function CSVUpload() {
   const [file, setFile] = useState<File | null>(null)
   const [isUploaded, setIsUploaded] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0])
-      setIsUploaded(false) // Reset upload state when a new file is selected
+      setIsUploaded(false)
     }
   }
 
@@ -27,6 +28,7 @@ export default function CSVUpload() {
       return
     }
 
+    setIsLoading(true)
     const formData = new FormData()
     formData.append('file', file)
 
@@ -42,7 +44,7 @@ export default function CSVUpload() {
           description: "CSV file uploaded successfully.",
         })
         setFile(null)
-        setIsUploaded(true) // Set upload state to true
+        setIsUploaded(true)
       } else {
         throw new Error('File upload failed')
       }
@@ -52,6 +54,8 @@ export default function CSVUpload() {
         description: "Failed to upload CSV file. Please try again.",
         variant: "destructive",
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -78,10 +82,18 @@ export default function CSVUpload() {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-          disabled={isUploaded} // Disable button if upload is complete
+          className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isUploaded || isLoading}
         >
-          {isUploaded ? 'Uploaded' : 'Upload CSV'}
+          {isLoading ? (
+            <span className="flex items-center justify-center">
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Uploading...
+            </span>
+          ) : isUploaded ? 'Uploaded' : 'Upload CSV'}
         </button>
       </form>
     </div>
