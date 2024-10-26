@@ -39,11 +39,6 @@ const items = [
     icon: Inbox,
   },
   {
-    title: "A/B Testing",
-    url: "https://ab-thumbnail.vercel.app/",
-    icon: Link,
-  },
-  {
     title: "AI Chat",
     url: "/chat",
     icon: MessageSquare,
@@ -53,6 +48,12 @@ const items = [
     url: "/leads",
     icon: Users, 
   },
+  ,
+  {
+    title: "A/B Testing",
+    url: "https://ab-thumbnail.vercel.app/",
+    icon: Link,
+  }
 ]
 
 function SignOutButton() {

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 
 export default function GettingStartedGuide() {
   const [checklist, setChecklist] = useState({
+    gettingStarted: false,
     upload: false,
     query: false,
     chat: false,
@@ -111,6 +112,15 @@ export default function GettingStartedGuide() {
             className="form-checkbox h-5 w-5 text-blue-600" 
           />
           <span>Generate Leads with our AI lead generator!</span>
+        </label>
+        <label className="flex items-center space-x-3 cursor-pointer">
+          <input 
+            type="checkbox" 
+            checked={checklist.gettingStarted}
+            onChange={() => handleCheck('gettingStarted')}
+            className="form-checkbox h-5 w-5 text-blue-600" 
+          />
+          <span>Read through this Getting Started Guide</span>
         </label>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import AIChat from "@/components/ai-chat"
 import CSVUpload from "@/components/CSVUpload"
 import CSVQuery from "@/components/CSVQuery"
-import GettingStartedGuide from "@/components/GettingStartedGuide"
+import GettingStartedGuide from "@/components/getting-started"
 
 export default async function DashboardPage() {
   const session = await auth()
