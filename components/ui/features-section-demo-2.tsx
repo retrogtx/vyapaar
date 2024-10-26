@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils";
 import {
-  IconRocket,
-  IconBrandNextjs,
-  IconBrandTailwind,
-  IconDatabase,
-  IconMail,
-  IconLock,
-  IconPuzzle,
-  IconCode,
+  IconDashboard,
+  IconAB,
+  IconUsers,
+  IconRobot,
+  IconTargetArrow,
+  IconShieldLock,
+  IconMessageChatbot,
+  IconChartPie,
 } from "@tabler/icons-react";
 
 export default function FeaturesSectionDemo() {
@@ -16,49 +16,49 @@ export default function FeaturesSectionDemo() {
       title: "Smart Dashboard",
       description:
         "Comprehensive overview with customizable widgets, real-time analytics, and AI-driven insights for your CRM data.",
-      icon: <IconRocket />,
+      icon: <IconDashboard />,
     },
     {
       title: "A/B Testing",
       description:
         "Run sophisticated A/B tests on campaigns with analysis from real audience to optimize your marketing banners.",
-      icon: <IconBrandNextjs />,
+      icon: <IconAB />,
     },
     {
       title: "Customer Management",
       description:
         "Advanced customer segmentation with AI-driven insights based on cultural, regional, and socio-economic factors.",
-      icon: <IconBrandTailwind />,
+      icon: <IconUsers />,
     },
     {
       title: "AI Campaign Builder",
       description:
         "Create personalized, culturally-aware campaigns with AI-generated content in multiple Indian languages.",
-      icon: <IconDatabase />,
+      icon: <IconRobot />,
     },
     {
       title: "Lead Generation",
       description:
         "AI-powered lead scoring and qualification system to identify and nurture high-potential prospects.",
-      icon: <IconMail />,
+      icon: <IconTargetArrow />,
     },
     {
       title: "Secure Authentication",
       description:
         "Enterprise-grade security with role-based access control and data encryption.",
-      icon: <IconLock />,
+      icon: <IconShieldLock />,
     },
     {
       title: "AI Chat Support",
       description:
         "Multilingual chatbot with cultural awareness for automated customer support and engagement.",
-      icon: <IconPuzzle />,
+      icon: <IconMessageChatbot />,
     },
     {
       title: "Analytics Dashboard",
       description:
         "Comprehensive analytics with AI-driven insights, predictive modeling, and customizable reporting.",
-      icon: <IconCode />,
+      icon: <IconChartPie />,
     },
   ];
   return (
