@@ -1,10 +1,9 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
-import CustomerSegments from "@/components/customer-segments"
-import CampaignInsights from "@/components/campaign-insights"
 import AIChat from "@/components/ai-chat"
 import CSVUpload from "@/components/CSVUpload"
 import CSVQuery from "@/components/CSVQuery"
+import GettingStartedGuide from "@/components/GettingStartedGuide"
 
 export default async function DashboardPage() {
   const session = await auth()
@@ -20,11 +19,7 @@ export default async function DashboardPage() {
         <p className="text-xl mb-4">Hello, {session.user?.name || 'User'}!</p>
       </div>
 
-      <h2 className="text-3xl font-bold mb-4">CRM Features</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <CustomerSegments />
-        <CampaignInsights />
-      </div>
+      <GettingStartedGuide />
       <CSVUpload />
       <CSVQuery />
       <AIChat />
