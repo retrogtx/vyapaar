@@ -56,7 +56,7 @@ export default function Home() {
             <Safari url="vyapaar.com" className="w-full h-full relative z-10" />
           </div>
           <div className="flex flex-col justify-center items-center relative z-40">
-            <p className="text-sm text-gray-200 mb-2">Trusted by alotta companies for handling their customers.</p>
+            <p className="text-sm text-gray-200 mb-2">Trusted by alotta people for handling their customers.</p>
             <Avatars />
           </div>
         </div>

@@ -36,7 +36,7 @@ export function PricingComponent() {
               <CardContent className="flex-grow">
                 <div className="text-center text-white">
                   <span className="text-5xl font-extrabold">
-                    ${isAnnual ? plan.annualPrice : plan.monthlyPrice}
+                    ₹{isAnnual ? plan.annualPrice : plan.monthlyPrice}
                   </span>
                   <span className="text-xl font-medium text-gray-400">
                     /{isAnnual ? "year" : "month"}

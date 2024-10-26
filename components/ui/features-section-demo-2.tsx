@@ -13,51 +13,51 @@ import {
 export default function FeaturesSectionDemo() {
   const features = [
     {
-      title: "Quick Start",
+      title: "Smart Dashboard",
       description:
-        "Get your project off the ground quickly with our pre-configured setup.",
+        "Comprehensive overview with customizable widgets, real-time analytics, and AI-driven insights for your CRM data.",
       icon: <IconRocket />,
     },
     {
-      title: "Next.js Powered",
+      title: "A/B Testing",
       description:
-        "Leverage the power of Next.js for server-side rendering and optimal performance. The best ngl.",
+        "Run sophisticated A/B tests on campaigns with analysis from real audience to optimize your marketing banners.",
       icon: <IconBrandNextjs />,
     },
     {
-      title: "Tailwind CSS Styling",
+      title: "Customer Management",
       description:
-        "Create beautiful, responsive designs effortlessly with Tailwind CSS.",
+        "Advanced customer segmentation with AI-driven insights based on cultural, regional, and socio-economic factors.",
       icon: <IconBrandTailwind />,
     },
     {
-      title: "PostgreSQL & Drizzle ORM",
+      title: "AI Campaign Builder",
       description:
-        "Robust database setup with PostgreSQL and easy data management using Drizzle ORM.",
+        "Create personalized, culturally-aware campaigns with AI-generated content in multiple Indian languages.",
       icon: <IconDatabase />,
     },
     {
-      title: "Email Integration",
+      title: "Lead Generation",
       description:
-        "Seamless email functionality with Resend for transactional emails and notifications.",
+        "AI-powered lead scoring and qualification system to identify and nurture high-potential prospects.",
       icon: <IconMail />,
     },
     {
-      title: "Authentication",
+      title: "Secure Authentication",
       description:
-        "Secure authentication out of the box with Auth Js.",
+        "Enterprise-grade security with role-based access control and data encryption.",
       icon: <IconLock />,
     },
     {
-      title: "UI Component Library",
+      title: "AI Chat Support",
       description:
-        "Beautiful components from ShadCN, MagicUI, and Aceternity UI.",
+        "Multilingual chatbot with cultural awareness for automated customer support and engagement.",
       icon: <IconPuzzle />,
     },
     {
-      title: "Developer Friendly",
+      title: "Analytics Dashboard",
       description:
-        "Built for developers, by developers. Easily extensible and customizable.",
+        "Comprehensive analytics with AI-driven insights, predictive modeling, and customizable reporting.",
       icon: <IconCode />,
     },
   ];
