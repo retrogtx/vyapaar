@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import BusinessMetricsChart from "@/components/business-metrics-chart"
 import BusinessPredictionChart from "@/components/business-prediction-chart"
 import { Groq } from "groq-sdk"
+import { unstable_noStore as noStore } from 'next/cache';
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -25,7 +26,10 @@ interface BusinessMetrics {
   totalCustomers: number;
 }
 
+export const revalidate = 0
+
 async function getBusinessData() {
+  noStore();
   const data = await db.select().from(customers).execute()
   return data
 }

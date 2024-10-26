@@ -22,12 +22,10 @@ export async function POST(request: NextRequest) {
 
     console.log('Parsed CSV Records:', records)
 
-    // Process and insert the records into the database
     for (const record of records) {
       try {
         console.log('Inserting record:', record)
         
-        // Create a properly typed customer data object
         const rawCustomerData = {
           id: uuidv4(),
           name: (record.Name || record.name || '') as string,
@@ -47,7 +45,6 @@ export async function POST(request: NextRequest) {
           updatedAt: new Date()
         }
 
-        // Add validation and type conversion before inserting
         const customerData = {
           ...rawCustomerData,
           businessExpenses: Number(rawCustomerData.businessExpenses) || 0,
@@ -57,8 +54,6 @@ export async function POST(request: NextRequest) {
           averageOrderValue: Number(rawCustomerData.averageOrderValue) || 0,
           age: Number(rawCustomerData.age) || 0
         };
-
-        // Add validation before update
         if (!customerData.businessExpenses && 
             !customerData.businessGrowthRate && 
             !customerData.customerSatisfactionScore) {
@@ -69,7 +64,6 @@ export async function POST(request: NextRequest) {
           .onConflictDoUpdate({
             target: [customers.email],
             set: {
-              // Only update if new value exists
               ...(customerData.name && { name: customerData.name }),
               ...(customerData.gender && { gender: customerData.gender }),
               ...(customerData.phone && { phone: customerData.phone }),

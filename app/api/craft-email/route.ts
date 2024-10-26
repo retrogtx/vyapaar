@@ -16,8 +16,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
   try {
     const { product, region, previewOnly } = await request.json();
-
-    // Fetch customer data based on the region
     const allCustomers = await db.select().from(customers).execute();
     console.log('All customers:', allCustomers.length);
     
