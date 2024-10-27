@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vyapaar - AI-Integrated CRM Platform
+
+Vyapaar is a modern, AI-powered CRM platform designed to help businesses manage customers with ease. Built with Next.js and integrated with Llama 3.1, it offers a comprehensive suite of tools for customer management, lead generation, and business analytics.
+
+This is a submission for [Mumbai Hacks 2024](https://mumbaihacks.com), the largest Gen AI hackathon ever held, [a Guinness world record.](https://x.com/mumbai_tech_/status/1850156561584251065)
+
+## Key Features
+
+### 🎯 Smart Dashboard
+- Real-time analytics and AI-driven insights
+- Customer statistics and data visualization
+- CSV data upload and natural language querying
+
+### 👥 Customer Management
+- Cultural and regional insights
+- Detailed customer profiles and purchase history with location-based analytics
+
+### 🤖 AI Integration
+- AI Chat Support with multilingual capabilities
+- Natural language data querying
+- AI-driven growth predictions
+
+### 📧 Email Campaigns
+- Region and product-specific targeting
+- Campaign performance analytics
+- Customizable email templates
+
+### 🎯 Lead Generation
+- AI-powered X/Twitter lead monitoring
+- Smart lead scoring and qualification
+- Automated message generation
+- Engagement tracking and analytics
+
+### 🔄 A/B Testing
+- Sophisticated campaign testing
+- Real audience analysis
+- Performance tracking
+- Marketing banner optimization
+
+### 📊 Business Analytics
+- KPI tracking and visualization
+- Growth rate analysis
+- Customer satisfaction metrics
+- Expense tracking and reporting
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+git clone https://github.com/retrogtx/vyapaar.git
+cd vyapaar
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Fill all the environment variables in `.env` and you're good to go!
